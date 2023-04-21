@@ -1,3 +1,4 @@
+
 var {
     WebUSB
 } = require('usb');
@@ -12,6 +13,8 @@ const path = require('path');
 const rootPath = app.getAppPath();
 let tray;
 let batteryCheckInterval;
+var previousBatteryLife = undefined
+var disconnected = true
 
 app.whenReady().then(() => {
     const icon = nativeImage.createFromPath(path.join(rootPath,'src/assets/bat_5.png'));
@@ -23,7 +26,7 @@ app.whenReady().then(() => {
 
     batteryCheckInterval = setInterval(() => {
         SetTrayDetails(tray);
-    }, 30000);
+    }, 3000); // 3 Seconds
 
     SetTrayDetails(tray);
     
@@ -32,15 +35,30 @@ app.whenReady().then(() => {
     tray.setTitle('Razer Battery Life');
 })
 
-function SetTrayDetails(tray) {
-    GetBattery().then(battLife => {
-        if (battLife === 0) return;
+async function SetTrayDetails(tray) {
 
-        let assetPath = GetBatteryIconPath(battLife);
+    batteryLife = await GetBattery()
+    if (batteryLife == undefined && previousBatteryLife != undefined) {
+        batteryLife = previousBatteryLife
+        disconnected = true
+    }
+    // Check if mouse is turned off
+    else if (batteryLife == 0) {
+        disconnected = true
+        batteryLife = previousBatteryLife
+    }
+    // Check if mouse is disconnected from the system
+    else {
+        previousBatteryLife = batteryLife
+        disconnected = false
+    }
+    let assetPath = GetBatteryIconPath(batteryLife);
 
-        tray.setImage(nativeImage.createFromPath(path.join(rootPath, assetPath)));
-        tray.setToolTip(battLife +'%');
-    });
+    tray.setImage(nativeImage.createFromPath(path.join(rootPath, assetPath)));
+    if (disconnected)
+        tray.setToolTip(Math.round(batteryLife) +'%,\nDisconnected');
+    else
+        tray.setToolTip(Math.round(batteryLife) +'%');
 }
 
 function GetBatteryIconPath(val) {
@@ -69,15 +87,16 @@ function QuitClick(){
 const RazerVendorId = 0x1532;
 const TransactionId = 0x1f
 const RazerProducts = {
-    0x0088: {
-        name: 'Razer Basilisk Ultimate Dongle',
+    0x00AA: {
+        name: 'Razer Basilisk V3 Pro',
         wireless: true
     },
-    0x0086: {
-        name: 'Razer Basilisk Ultimate',
-        wireless: true
+    0x00AB: {
+        name: 'Razer Basilisk V3 Pro',
+        wireless: false
     }
 };
+
 function GetMessage() {
     // Function that creates and returns the message to be sent to the device
     let msg = Buffer.from([0x00, TransactionId, 0x00, 0x00, 0x00, 0x02, 0x07, 0x80]);
@@ -95,6 +114,7 @@ function GetMessage() {
 
     return msg;
 };
+
 async function GetMouse() {
     const customWebUSB = new WebUSB({
         // This function can return a promise which allows a UI to be displayed if required
@@ -112,6 +132,7 @@ async function GetMouse() {
         throw new Error('No Razer device found on system');
     }
 };
+
 async function GetBattery() {
     try {
         const mouse = await GetMouse();
