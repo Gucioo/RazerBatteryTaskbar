@@ -7,4 +7,4 @@ Much of this code is adapted from other works, credit below:
 * Hsutungyu https://github.com/hsutungyu/razer-mouse-battery-windows
 
 ## Supported Hardware
-* Basilisk (Wireless, Plugged in)
+* Basilisk V3 Pro (Wireless, Plugged in)
