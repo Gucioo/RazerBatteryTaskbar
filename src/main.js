@@ -26,7 +26,7 @@ app.whenReady().then(() => {
 
     batteryCheckInterval = setInterval(() => {
         SetTrayDetails(tray);
-    }, 3000); // 3 Seconds
+    }, 30000); // 30 Seconds
 
     SetTrayDetails(tray);
     
@@ -128,14 +128,23 @@ async function GetMouse() {
 
     if (device) {
         return device;
-    } else {
-        throw new Error('No Razer device found on system');
     }
+    return undefined
 };
 
 async function GetBattery() {
     try {
-        const mouse = await GetMouse();
+        var mouse
+
+        while(1) {
+            mouse = await GetMouse();
+            // Check if the mouse was found
+            if (mouse != undefined) {
+                break;
+            }
+            // Retry every 10 seconds
+            await sleep(10000);
+        }
 
         const msg = GetMessage();
 
@@ -170,3 +179,7 @@ async function GetBattery() {
         console.error(error);
     }
 };
+
+async function sleep(millis) {
+    return new Promise(resolve => setTimeout(resolve, millis));
+}
