@@ -2,9 +2,9 @@
   "name": "razerbatterytaskbar",
   "version": "1.0.0",
   "main": "src/main.js",
-  "author": "Tyler Dougherty",
+  "author": "Cong Nguyen",
   "license": "ISC",
-  "description": "Razer battery life for Basilisk Ultimate",
+  "description": "Razer battery life for Basilisk V3 Pro",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
