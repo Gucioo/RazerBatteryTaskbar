@@ -38,3 +38,7 @@ npm exec --package=@electron-forge/cli -c "electron-forge make"
   › Artifacts available at: C:\Electron\RazerBatteryTaskbar\out\make
 
 Make sure there is 1GB free space on HDD for succesfull compile.
+
+
+![image](https://github.com/Gucioo/RazerBatteryTaskbar/assets/7483436/b45f7ed3-be59-4d7e-a970-642372a3c559)
+
