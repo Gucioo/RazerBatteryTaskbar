@@ -1,8 +1,8 @@
 {
-  "name": "razerbatterytaskbar",
+  "name": "RazerBatteryTaskbar",
   "version": "1.0.0",
   "main": "src/main.js",
-  "author": "Cong Nguyen",
+  "author": "Razer",
   "license": "ISC",
   "description": "Razer battery life for Basilisk V3 Pro",
   "scripts": {
