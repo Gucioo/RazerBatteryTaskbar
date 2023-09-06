@@ -14,6 +14,7 @@ install node.js
 install git
 
 ==============================================================================
+
 copy GIT archive to C:\Electron\RazerBatteryTaskbar
 
 cd C:\Electron\RazerBatteryTaskbar
