@@ -4,6 +4,8 @@ forked from https://github.com/KaomN/RazerBatteryTaskbar
 
 Modified to Support Basilisk V3 Pro (Wireless, Plugged in).
 
+![image](https://github.com/Gucioo/RazerBatteryTaskbar/assets/7483436/35573b69-bfe5-4e20-ae93-59de1e3ee45f)
+
 
 # Windows Compile Instructions
 
